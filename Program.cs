@@ -1,168 +1,96 @@
-﻿using System;
+﻿using Algoritm.SortingAlgorithms;
+using System;
+using System.Linq;
 
 namespace Algoritm
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            Random random = new Random();
-            int[] array = new int[10];
-            for (int i = 0; i < array.Length - 1; i++)
+            Console.WriteLine(LocalizationStrings.SelectionAlgorithmTypeCaption);
+            string selectionTypeResult = Console.ReadLine();
+            switch (selectionTypeResult)
             {
-                array[i] = random.Next(50);
+                case "1":
+                    GetSortingAlgorithm();
+                    break;
+                case "2":
+                    GetSearchAlgorithm();
+                    break;
+                default:
+                    Console.WriteLine(LocalizationStrings.SpecifiedValueIncorrectError);
+                    break;
             }
-            int[] testArray = { 1, 15, 14, 13, 11, 10, 12, 5, 9, 2, 6, 3, 8, 7, 4 };
-            Piramid_sort(testArray);
-            foreach (var item in testArray)
-            {
-                Console.Write(item + " ");
-            }
-            ////добавление новых элементов для сортировки вставкой
-            //for (int i = 0; i < array.Length; i++)
-            //{
-            //    array[i] = random.Next(50);
-            //}
-            //Console.Write($"Искодный массив:      ");
-            //foreach (var item in array)
-            //{
-            //    Console.Write(item + " ");
-            //}
-            //Console.WriteLine();
-            //InsertSort(array);
-            //Console.Write("Сортировка вставкой:  ");
-            //foreach (var item in array)
-            //{
-            //    Console.Write(item + " ");
-            //}
-            //Console.WriteLine("\n");
-            ////добавление новых элементов для сортировки пузырьком
-            //for (int i = 0; i < array.Length; i++)
-            //{
-            //    array[i] = random.Next(50);
-            //}
-            //Console.Write($"Искодный массив:      ");
-            //foreach (var item in array)
-            //{
-            //    Console.Write(item + " ");
-            //}
-            //Console.WriteLine();
-            //BubbleSort(array);
-            //Console.Write("Сортировка пузырьком: ");
-            //foreach (var item in array)
-            //{
-            //    Console.Write(item + " ");
-            //}
-            //Console.WriteLine("\n");
-            ////добавление новых элементов для сортировки выбором
-            //for (int i = 0; i < array.Length; i++)
-            //{
-            //    array[i] = random.Next(50);
-            //}
-            //Console.Write($"Искодный массив:      ");
-            //foreach (var item in array)
-            //{
-            //    Console.Write(item + " ");
-            //}
-            //Console.WriteLine();
-            //SelectionSort(array);
-            //Console.Write("Сортировка выбором:   ");
-            //foreach (var item in array)
-            //{
-            //    Console.Write(item + " ");
-            //}
-            //Console.WriteLine();
         }
 
-        //сортировка вставкой
-        static int[] InsertSort(int[] array)
+        /// <summary>
+        /// Получение данных с помощью алгоритма сортировки
+        /// </summary>
+        static void GetSortingAlgorithm()
         {
-            for (int i = 1; i < array.Length; i++)
-            {
-                var x = array[i];
-                var j = i - 1;
-                while (j >= 0 && x < array[j])
-                {
-                    array[j + 1] = array[j];
-                    j -= 1;
-                }
-                array[j + 1] = x;
-            }
-            return array;
-        }
-        //пузырьковая сортировка
-        static int[] BubbleSort(int[] array)
-        {
+            Console.WriteLine(LocalizationStrings.SelectionSortingAlgorithmCaption);
+            string selectionSortingResult = Console.ReadLine();
 
-            for (int i = 0; i < array.Length; i++)
+            Console.WriteLine(LocalizationStrings.SpecifyListValuesCaption);
+            string specifyListValues = Console.ReadLine();
+            if (specifyListValues == string.Empty)
             {
-                for (int j = i + 1; j < array.Length; j++)
-                {
-                    if (array[i] > array[j])
-                    {
-                        Swap(array, i, j);
-                    }
-                }
+                Console.WriteLine(LocalizationStrings.SpecifyListValuesIncorrectError);
+                return;
             }
-            return array;
-        }
-        //сортировка выбором
-        static int[] SelectionSort(int[] array)
-        {
 
-            for (int i = 0; i < array.Length - 1; i++)
+            int[] initialListValues = specifyListValues.Split(',').Select(x => int.Parse(x)).ToArray();
+            if (initialListValues.Length == 0 ) 
             {
-                int min = i;
-                for (int j = i + 1; j < array.Length; j++)
-                {
-                    if (array[j] < array[min])
-                    {
-                        min = j;
-                    }
+                Console.WriteLine(LocalizationStrings.SpecifyListValuesIncorrectError);
+                return;
+            }
 
-                }
-                Swap(array, min, i);
-            }
-            return array;
-        }
-        //пирамидальная сортировка
-        static int[] Piramid_sort(int[] array)
-        {
-            int max = 0;
-            for (int i = 0; i < array.Length - 1; i++)
+            switch (selectionSortingResult)
             {
-                if (max < array[i])
-                {
-                    max = i;
-                }
+                case "1":
+                    int[] resultBubbleSorting = BubbleSortingAlgorithm.GetResult(initialListValues);
+                    DisplayingValues(resultBubbleSorting);
+                    break;
+                case "2":
+                    int[] resultInsertSorting = InsertingSortingAlgorithm.GetResult(initialListValues);
+                    DisplayingValues(resultInsertSorting);
+                    break;
+                case "3":
+                    int[] resultPiramidSorting = PiramidSortingAlgorithm.GetResult(initialListValues);
+                    DisplayingValues(resultPiramidSorting);
+                    break;
+                case "4":
+                    int[] resultSelectionSorting = SelectionSortingAlgorithm.GetResult(initialListValues);
+                    DisplayingValues(resultSelectionSorting);
+                    break;
+                default:
+                    Console.WriteLine(LocalizationStrings.SpecifiedValueIncorrectError);
+                    break;
             }
-            Swap(array, 0, max);
-            int n = array.Length;
-            for (int i = 0; i < (n / 2) - 1; i++)
-            {
-                
-                if (array[2 * i + 1] > array[i])
-                    Swap(array, i, 2 * i + 1);
-                if (array[2 * i + 2] > array[i])
-                    Swap(array, i, 2 * i + 2);
-            }
-            for (int i = 0; i < (n / 2) - 1; i++)
-            {
-                Swap(array, 0, n-1);
-                if (array[2 * i + 1] > array[i])
-                    Swap(array, i, 2 * i + 1);
-                if (array[2 * i + 2] > array[i])
-                    Swap(array, i, 2 * i + 2);
-                n--;
-            }
-            return array;
         }
 
-        static void Swap(int[] array, int positionA, int positionB)
+        /// <summary>
+        /// Получение данных с помощью алгоритма поиска
+        /// </summary>
+        static void GetSearchAlgorithm()
         {
-            int temp = array[positionA];
-            array[positionA] = array[positionB];
-            array[positionB] = temp;
+            Console.WriteLine(LocalizationStrings.AlgorithmTypeNotImplementedCaption);
+        }
+
+        /// <summary>
+        /// Отображение полученной выборки в консоли
+        /// </summary>
+        /// <param name="array">Список итоговых значений</param>
+        static void DisplayingValues(int[] array)
+        {
+            string result = string.Empty;
+            foreach (var item in array)
+            {
+                result += item + " ";
+            }
+            Console.WriteLine(string.Format(LocalizationStrings.FinalSampleValuesCaption, result));
         }
     }
 }
