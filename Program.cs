@@ -65,6 +65,9 @@ namespace Algoritm
                     int[] resultSelectionSorting = SelectionSortingAlgorithm.GetResult(initialListValues);
                     DisplayingValues(resultSelectionSorting);
                     break;
+                case "5":
+                    int[] resultQuickSorting = QuickSortingAlgorithm.GetResult(initialListValues);
+                    break;
                 default:
                     Console.WriteLine(LocalizationStrings.SpecifiedValueIncorrectError);
                     break;
